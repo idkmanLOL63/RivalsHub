@@ -34,8 +34,7 @@ local Window = Rayfield:CreateWindow({
  })
 
  local Sense = loadstring(game:HttpGet('https://sirius.menu/sense'))()
- local dhlock = loadstring(game:HttpGet("https://raw.githubusercontent.com/Stratxgy/DH-Lua-Lock/refs/heads/main/Main.lua"))()
- local speed = loadstring(game:HttpGet("https://raw.githubusercontent.com/Stratxgy/Lua-Speed/refs/heads/main/speed.lua"))()
+
 
  local MainTab = Window:CreateTab("Main", 4483362458)
 
@@ -50,7 +49,9 @@ local Window = Rayfield:CreateWindow({
     end,
  })
 
-local Toggle = MainTab:CreateToggle({
+ local ezTab = Window:CreateTab("Misc", 4483362458) -- Title, Image
+
+local Toggle = ezTab:CreateToggle({
    Name = "Esp Box",
    CurrentValue = false,
    Flag = "Toggle1", 
@@ -80,50 +81,5 @@ local Toggle = MainTab:CreateToggle({
     Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
     Callback = function(Value)
      getgenv().dhlock.enabled = Value
-    end,
- })
-
- local Toggle = MainTab:CreateToggle({
-    Name = "fov",
-    CurrentValue = false,
-    Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
-    Callback = function(Value)
-       getgenv().dhlock.showfov = Value
-    end,
- })
-
- local Slider = MainTab:CreateSlider({
-    Name = "fov",
-    Range = {0, 300},
-    Increment = 10,
-    Suffix = "FOV",
-    CurrentValue = 50,
-    Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
-    Callback = function(Value)
-     getgenv().dhlock.fov = Value
-    end,
- })
- 
- local Section = MainTab:CreateSection("Player Settings")
-
- local Toggle = MainTab:CreateToggle({
-    Name = "Enabled Speed",
-    CurrentValue = false,
-    Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
-    Callback = function(Value)
-        getgenv().speed.enabled = Value
-    end,
- })
- 
- 
- local Slider = MainTab:CreateSlider({
-    Name = "WalkSpeed",
-    Range = {0, 1000},
-    Increment = 1,
-    Suffix = "Speed",
-    CurrentValue = 0,
-    Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
-    Callback = function(Value)
-        getgenv().speed.speed = Value
     end,
  })
