@@ -1,57 +1,43 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local Window = Rayfield:CreateWindow({
-    Name = "RivalsHub",
-    Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
-    LoadingTitle = "RivalsHub is loading...",
-    LoadingSubtitle = "by idk",
-    Theme = "Default", -- Check https://docs.sirius.menu/rayfield/configuration/themes
- 
-    DisableRayfieldPrompts = false,
-    DisableBuildWarnings = false, -- Prevents Rayfield from warning when the script has a version mismatch with the interface
- 
-    ConfigurationSaving = {
-       Enabled = true,
-       FolderName = nil, -- Create a custom folder for your hub/game
-       FileName = "Big Hub"
-    },
- 
-    Discord = {
-       Enabled = false, -- Prompt the user to join your Discord server if their executor supports it
-       Invite = "noinvitelink", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ ABCD would be ABCD
-       RememberJoins = true -- Set this to false to make them join the discord every time they load it up
-    },
- 
-    KeySystem = false, -- Set this to true to use our key system
-    KeySettings = {
-       Title = "Untitled",
-       Subtitle = "Key System",
-       Note = "No method of obtaining the key is provided", -- Use this to tell the user how to get a key
-       FileName = "Key", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
-       SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
-       GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
-       Key = {"Hello"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
-    }
- })
+   Name = "RivalsHub",
+   Icon = 0,
+   LoadingTitle = "LOADING OMGGGGG",
+   LoadingSubtitle = "by Sirius",
+   Theme = "Default",
+   DisableRayfieldPrompts = false,
+   DisableBuildWarnings = false,
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = nil,
+      FileName = "Big Hub"
+   },
+   Discord = {
+      Enabled = false,
+      Invite = "noinvitelink",
+      RememberJoins = true
+   },
+   KeySystem = false,
+   KeySettings = {
+      Title = "Untitled",
+      Subtitle = "Key System",
+      Note = "No method of obtaining the key is provided",
+      FileName = "Key",
+      SaveKey = true,
+      GrabKeyFromSite = false,
+      Key = {"Hello"}
+   }
+})
 
- local Sense = loadstring(game:HttpGet('https://sirius.menu/sense'))()
+local dhlock = loadstring(game:HttpGet("https://raw.githubusercontent.com/Stratxgy/DH-Lua-Lock/refs/heads/main/Main.lua"))()
 
+-- 1. Load the library
+local Sense = loadstring(game:HttpGet('https://sirius.menu/sense'))()
 
- local MainTab = Window:CreateTab("Main", 4483362458)
+local espTab = Window:CreateTab("Visuals", "eye")
+local Section = espTab:CreateSection("Esp Settings")
 
- local Section = MainTab:CreateSection("Aim Settings")
-
- local Toggle = MainTab:CreateToggle({
-    Name = "Silent Aim x ESP (Maybe Detected)",
-    CurrentValue = false,
-    Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
-    Callback = function(Value)
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/idkmanLOL63/idkk/refs/heads/main/sss"))()
-    end,
- })
-
- local ezTab = Window:CreateTab("Misc", 4483362458) -- Title, Image
-
-local Toggle = ezTab:CreateToggle({
+local Toggle = espTab:CreateToggle({
    Name = "Esp Box",
    CurrentValue = false,
    Flag = "Toggle1", 
@@ -75,11 +61,86 @@ local Toggle = ezTab:CreateToggle({
    end,
 })
 
-local Toggle = MainTab:CreateToggle({
-    Name = "Aimbot",
+local aimbotTab = Window:CreateTab("Main", "crosshair") -- Title, Image
+local Section = aimbotTab:CreateSection("Aimbot Settings")
+local Toggle = aimbotTab:CreateToggle({
+   Name = "Aimbot",
+   CurrentValue = false,
+   Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+    getgenv().dhlock.enabled = Value
+   end,
+})
+
+ local Toggle = aimbotTab:CreateToggle({
+    Name = "fov",
     CurrentValue = false,
     Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
     Callback = function(Value)
-     getgenv().dhlock.enabled = Value
+       getgenv().dhlock.showfov = Value
     end,
  })
+
+
+local Slider = aimbotTab:CreateSlider({
+   Name = "fov",
+   Range = {0, 300},
+   Increment = 10,
+   Suffix = "FOV",
+   CurrentValue = 50,
+   Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+    getgenv().dhlock.fov = Value
+   end,
+})
+
+local Section = aimbotTab:CreateSection("Players Settings")
+
+local Slider = aimbotTab:CreateSlider({
+   Name = "Player Speed",
+   Range = {16, 1000},
+   Increment = 1,
+   Suffix = "WS",
+   CurrentValue = 10,
+   Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+      game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+   end,
+})
+
+local MiscTab = Window:CreateTab("Misc", 4483362458) -- Title, Image
+local Section = MiscTab:CreateSection("Xray Settings")
+
+local Toggle = MiscTab:CreateToggle({
+    Name = "X-ray",
+    CurrentValue = false,
+    Flag = "ToggleXray", -- Unique flag for configuration saving
+    Callback = function(Value)
+        if Value then
+            -- Enable X-ray: Set transparency for all parts to make them visible through walls
+            for _, obj in pairs(workspace:GetDescendants()) do
+                if obj:IsA("BasePart") then
+                    obj.LocalTransparencyModifier = 0.5 -- Adjust transparency for X-ray effect
+                end
+            end
+            print("X-ray Enabled")
+        else
+            -- Disable X-ray: Reset transparency back to normal
+            for _, obj in pairs(workspace:GetDescendants()) do
+                if obj:IsA("BasePart") then
+                    obj.LocalTransparencyModifier = 0 -- Reset transparency to normal
+                end
+            end
+            print("X-ray Disabled")
+        end
+    end,
+})
+
+local Toggle = aimbotTab:CreateToggle({
+   Name = "SilentAim x Esp (Rivals and maybe detected)",
+   CurrentValue = false,
+   Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/idkmanLOL63/idkk/refs/heads/main/sss"))()
+   end,
+})
